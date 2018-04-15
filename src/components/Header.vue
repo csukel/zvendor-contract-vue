@@ -1,9 +1,9 @@
 <template>
-    <v-toolbar color="primary">
+    <v-toolbar dark color="primary">
         <v-btn  v-if="!isRoot" icon  @click="onNavBack()">
-            <v-icon color="white">arrow_back</v-icon>
+            <v-icon >arrow_back</v-icon>
         </v-btn>
-        <v-toolbar-title class="white--text">Vendor Contract Management</v-toolbar-title>
+        <v-toolbar-title >Vendor Contracts</v-toolbar-title>
     </v-toolbar>
 </template>
 
