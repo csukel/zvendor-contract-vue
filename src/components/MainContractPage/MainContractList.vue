@@ -1,8 +1,8 @@
 <template>
   <div >
     <h1>Main Contract List</h1>
-    <ul v-if="vendors">
-      <li v-for="vendor in vendors" :key="vendor.VendorCode"> {{vendor.VendorCode}} </li>
+    <ul v-if="contracts">
+      <li v-for="contract in contracts" :key="contract.ContractNo">{{contract.ContractNo}}</li>
     </ul>
     <v-btn @click="fetchMore()">Load more</v-btn>
   </div>
@@ -18,18 +18,19 @@ export default {
   },
   computed:{
     ...mapState({
-      vendors: state => state.vendors.items
+      contracts: state => state.mainContracts.items
     })
   },
   created(){
     console.log('Main Contract List vue instance created!');
-    this.fetchVendors();
+    this.fetchMainContracts();
     
   },
   methods:{
     ...mapActions({
-      fetchVendors: 'vendors/fetchData',
-      fetchMore:'vendors/fetchData'
+      fetchMainContracts: 'mainContracts/fetchData',
+      fetchMore:'mainContracts/fetchData',
+      clearList: 'mainContracts/reset'
     })
   }
 }
