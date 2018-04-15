@@ -10,7 +10,7 @@ const entitySets = {
     'VENDOR_MAIN_CONTRACT_SET': new EntitySet('VendorContractSet','$filter=AgreementType eq \'ZK01\'',10,0,service),
     // 'VENDOR_SUB_CONTRACT_SET': (mainContractNo) => {return `VendorContractSet?$orderby=AgreementType asc&$filter=LinkToMain eq \'${mainContractNo}\'`}
     'VENDOR_SUB_CONTRACT_SET': new EntitySet('VendorContractSet',null,10,0,service),
-    'VENDOR_SET': new EntitySet('VendorSet',null,10,0,service)
+    'VENDOR_SET': new EntitySet('VendorSet',null,5,0,service)
 };
 
 export default{

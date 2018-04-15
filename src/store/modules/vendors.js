@@ -5,7 +5,9 @@ export default {
         items: []
     },
     getters: {
-
+        getItems(state){
+            return state.items;
+        }
     },
     actions: {
         fetchData({ state, rootState, commit, dispatch }) {
@@ -19,8 +21,11 @@ export default {
                 });
         },
         queryFilter({state,rootState,commit,dispatch},val){
-            var t = val;
-            debugger;
+            let filterStr = `$filter=substringof('${val}',VendorCode) or substringof('${val}',VendorName)`
+            let vendorSet = rootState.service.entitySets[entityName];
+            vendorSet.initialize();
+            vendorSet.filters= filterStr;
+            dispatch('fetchData');
         },
         reset({ state, rootState, commit, dispatch }){
             let vendorSet = rootState.service.entitySets[entityName]; 
@@ -30,7 +35,12 @@ export default {
     },
     mutations: {
         addItems(state, { items, rootState }) {
+            // let results = [];
+            // items.forEach(element => {
+            //     results.push(element.VendorName)
+            // });
             state.items = state.items.concat(items) ;
+            //state.items = state.items.concat(results) ;
             let vendorSet = rootState.service.entitySets[entityName];
             vendorSet.itemsCount = state.items.length;
             vendorSet.skip += vendorSet.top;

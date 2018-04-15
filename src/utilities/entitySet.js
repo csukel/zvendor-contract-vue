@@ -4,13 +4,14 @@ export default class EntitySet {
         this.baseUrl = baseUrl;
         this.entityfilters = filters;
         this.top = top;
+        this.growingThreshold=top;
         this.skip = skip;
         this.service = service;
         this.itemsCount = 0;
     }
 
     initialize() {
-        this.top = 10;
+        this.top = this.growingThreshold;
         this.skip = 0;
         this.itemsCount = 0;
         this.filters = null;
@@ -20,7 +21,7 @@ export default class EntitySet {
     get url() {
         let url = this.baseUrl + `?$skip=${this.skip}&$top=${this.top}`;
         if (this.filters) {
-            url += this.filters;
+            url += "&" +this.filters;
         }
         return url;
     }
@@ -59,7 +60,7 @@ export default class EntitySet {
         return new Promise((resolve, reject) => {
             let url = that.baseUrl + '/$count';
             if (that.filters) {
-                url += that.filters;
+                url +="?" + that.filters;
             }
             that.service.get(url)
                 .then(response => {

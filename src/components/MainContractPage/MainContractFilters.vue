@@ -8,14 +8,16 @@
           </v-text-field>
         </v-flex>
         <v-flex xs12 md3 lg2>
-          <v-select label="Vendor"
-            autocomplete
-            multiple
-            :loading="vendorSelectLoading"
-            chips
-            :items="vendors"
-            v-model="selectVendors"
-            :search-input.sync="searchVendors">
+          <v-select label="Vendor" @change="clearVendorList()" clearable multiple autocomplete max-height="300px" item-text="VendorName" item-value="VendorCode" :loading="vendorSelectLoading" cache-items chips :items="vendors" v-model="selectVendors" :search-input.sync="searchVendors">
+            <template slot="item" slot-scope="data" style="overflow: scroll">
+              <span>{{data.item.VendorCode}} - {{ data.item.VendorName}}</span>
+            </template>
+            <template slot="selection" slot-scope="data">
+              <v-chip>
+                 {{ data.item.VendorName}}
+
+              </v-chip>
+            </template>
           </v-select>
         </v-flex>
         <v-flex xs12 md3 lg2>
@@ -39,7 +41,7 @@
           </v-text-field>
         </v-flex>
         <v-flex xs12 md3 lg1>
-          <v-btn light class="secondary">Filter</v-btn>
+          <v-btn @click="fitlerContractList()" light class="secondary">Filter</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -47,36 +49,44 @@
 </template>
 
 <script>
-import { mapState,mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "MainContractFilters",
-  created(){
-    this.fetchVendors();
+  created() {
+    //this.fetchVendors();
   },
-  data(){
-    return{
+  data() {
+    return {
       vendorSelectLoading: false,
-      selectVendors:[],
-      vendors:[],
-      searchVendors : null
-    }
+      selectVendors: [],
+      //vendors:['giannis'],
+      searchVendors: null
+    };
   },
   computed: {
     // ...mapState({
     //   vendors: 'vendors/items'
     // })
+    ...mapGetters({
+      vendors: "vendors/getItems"
+    })
   },
-  methods:{
+  methods: {
     ...mapActions({
-      fetchVendors: 'vendors/fetchData'
+      fetchVendors: "vendors/fetchData",
+      clearVendorList: "vendors/reset"
     }),
-    queryVendorSelections(val){
-      this.$store.dispatch('vendors/queryFilter')
+    queryVendorSelections(val) {
+      this.$store.dispatch("vendors/queryFilter", val);
+    },
+    fitlerContractList(){
+      debugger;
+      var t = null;
     }
   },
   watch: {
-    searchVendors(val){
-      val && this.queryVendorSelections(val);
+    searchVendors(val) {
+      val && this.queryVendorSelections(val.toUpperCase());
     }
   }
 };
