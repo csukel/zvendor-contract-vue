@@ -18,6 +18,10 @@ export default {
 
                 });
         },
+        queryFilter({state,rootState,commit,dispatch},val){
+            var t = val;
+            debugger;
+        },
         reset({ state, rootState, commit, dispatch }){
             let vendorSet = rootState.service.entitySets[entityName]; 
             vendorSet.initialize();
@@ -28,6 +32,7 @@ export default {
         addItems(state, { items, rootState }) {
             state.items = state.items.concat(items) ;
             let vendorSet = rootState.service.entitySets[entityName];
+            vendorSet.itemsCount = state.items.length;
             vendorSet.skip += vendorSet.top;
         },
         removeAllItems(state){

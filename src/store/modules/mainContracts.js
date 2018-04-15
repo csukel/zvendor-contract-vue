@@ -28,6 +28,7 @@ export default {
         addItems(state, { items, rootState }) {
             state.items = state.items.concat(items) ;
             let contractSet = rootState.service.entitySets[entityName];
+            contractSet.itemsCount = state.items.length;
             contractSet.skip += contractSet.top;
         },
         removeAllItems(state){
